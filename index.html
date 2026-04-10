@@ -214,6 +214,8 @@ footer a{color:rgba(253,246,236,.6);text-decoration:none}
 footer a:hover{color:var(--terracotta)}
 .footer-links{display:flex;gap:18px}
 </style>
+<link rel="preload" as="image" href="/images/hero.jpg" fetchpriority="high">
+<!--email_off-->
 </head>
 <body>
 
@@ -238,6 +240,7 @@ footer a:hover{color:var(--terracotta)}
   </nav>
 </header>
 
+<main>
 <div class="hero">
   <div class="hero-tag">Grossiste B2B — Professionnels uniquement</div>
   <h1>Pyjamas & vêtements de nuit <em>en gros</em></h1>
@@ -456,6 +459,7 @@ footer a:hover{color:var(--terracotta)}
     </form>
   </div>
 </section>
+</main>
 
 <footer>
   <div>© 2026 grossiste-pyjamas.fr — Tous droits réservés</div>
@@ -472,5 +476,6 @@ document.querySelectorAll('.faq-q').forEach(btn=>{
   });
 });
 </script>
+<!--/email_off-->
 </body>
 </html>

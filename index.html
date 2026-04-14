@@ -131,8 +131,11 @@ h2{font-family:var(--font);font-size:clamp(1.5rem,3vw,2.2rem);font-weight:400;co
 .gammes{background:var(--creme)}
 .gammes-inner{max-width:1200px;margin:0 auto}
 .gammes-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:36px}
-.gamme-card{background:#fff;padding:28px;border-radius:var(--radius);border:1px solid #ede6df;border-top:3px solid transparent;transition:box-shadow .25s,transform .2s,border-color .25s}
+.gamme-card{background:#fff;padding:28px;border-radius:var(--radius);border:1px solid #ede6df;border-top:3px solid transparent;transition:box-shadow .25s,transform .2s,border-color .25s;overflow:hidden}
 .gamme-card:hover{box-shadow:0 8px 28px rgba(45,58,92,.08);transform:translateY(-2px);border-top-color:var(--terracotta)}
+.gamme-card-img{margin:-28px -28px 20px;height:180px;overflow:hidden}
+.gamme-card-img img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .4s}
+.gamme-card:hover .gamme-card-img img{transform:scale(1.04)}
 .gamme-card h3{font-family:var(--font);font-size:1.1rem;color:var(--bleu);font-weight:400;margin-bottom:10px}
 .gamme-card p{font-size:.86rem;color:#666;line-height:1.65;margin-bottom:14px}
 .gamme-prix{font-size:.78rem;color:var(--terracotta);font-weight:600}
@@ -296,16 +299,19 @@ footer a:hover{color:var(--terracotta)}
     <h2>Six gammes, du quotidien au coffret cadeau</h2>
     <div class="gammes-grid">
       <div class="gamme-card">
+        <div class="gamme-card-img"><img src="/images/prod-coton-adulte.webp" alt="Pyjamas coton adulte en gros — ensemble pantalon haut" width="800" height="600" loading="lazy"></div>
         <h3>Pyjamas coton adulte</h3>
         <p>Coton peigné 160-180 g/m², jersey ou popeline. Les basiques qui tournent toute l'année : ensembles pantalon+haut, shorts de nuit, chemises de nuit. Du XS au 4XL.</p>
         <div class="gamme-prix">À partir de 8,50 € HT</div>
       </div>
       <div class="gamme-card">
+        <div class="gamme-card-img"><img src="/images/prod-polaire.webp" alt="Pyjamas polaire et flanelle grossiste — vêtements de nuit chauds" width="800" height="600" loading="lazy"></div>
         <h3>Pyjamas polaire & flanelle</h3>
         <p>Polaire 220-280 g/m² ou flanelle brossée. Le segment haute saison (octobre-mars) avec les meilleures marges. Imprimés classiques, unis, motifs de Noël en saison.</p>
         <div class="gamme-prix">À partir de 11,00 € HT</div>
       </div>
       <div class="gamme-card">
+        <div class="gamme-card-img"><img src="/images/prod-enfant.webp" alt="Pyjamas enfant 2-14 ans Oeko-Tex grossiste — imprimés ludiques" width="800" height="600" loading="lazy"></div>
         <h3>Pyjamas enfant (2-14 ans)</h3>
         <p>Coton bio ou certifié Oeko-Tex. Imprimés ludiques, couleurs vives, motifs animaux. Finitions renforcées aux coutures. Même profondeur de coloris que l'adulte.</p>
         <div class="gamme-prix">À partir de 6,50 € HT</div>

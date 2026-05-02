@@ -133,6 +133,37 @@ h2{font-family:var(--font);font-size:clamp(1.5rem,3vw,2.2rem);font-weight:400;co
 .gammes-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:36px}
 .gamme-card{background:#fff;padding:28px;border-radius:var(--radius);border:1px solid #ede6df;border-top:3px solid transparent;transition:box-shadow .25s,transform .2s,border-color .25s;overflow:hidden}
 .gamme-card:hover{box-shadow:0 8px 28px rgba(45,58,92,.08);transform:translateY(-2px);border-top-color:var(--terracotta)}
+.gamme-card.is-hidden{display:none}
+
+.filter-bar{background:var(--creme);border:1px solid #ede6df;border-radius:var(--radius);padding:18px 20px;margin-top:24px;display:flex;flex-wrap:wrap;gap:14px;align-items:flex-end}
+.filter-bar .filter-group{display:flex;flex-direction:column;gap:5px;min-width:180px;flex:1}
+.filter-bar label{font-size:.7rem;text-transform:uppercase;letter-spacing:.08em;color:var(--bleu);font-weight:600}
+.filter-bar select{padding:8px 10px;border:1px solid #ddd;border-radius:6px;background:#fff;font-size:.86rem;color:var(--bleu);font-family:inherit;cursor:pointer}
+.filter-bar select:focus{outline:none;border-color:var(--terracotta)}
+.filter-bar select option:disabled{color:#bbb}
+.filter-bar .filter-actions{display:flex;align-items:center;gap:14px;margin-left:auto}
+.filter-bar .filter-count{font-size:.82rem;color:#666}
+.filter-bar .filter-count b{color:var(--bleu)}
+.filter-bar .filter-reset{background:transparent;border:1px solid #ddd;color:var(--bleu);padding:8px 14px;border-radius:6px;cursor:pointer;font-size:.82rem;font-family:inherit;transition:all .2s}
+.filter-bar .filter-reset:hover{border-color:var(--terracotta);color:var(--terracotta)}
+.filter-empty{display:none;background:var(--creme);border:1px dashed var(--terracotta);padding:22px;border-radius:var(--radius);margin-top:18px;text-align:center;font-size:.9rem;color:var(--bleu)}
+.filter-empty a{color:var(--terracotta);font-weight:600;text-decoration:underline;cursor:pointer}
+.filter-mobile{display:none}
+@media(max-width:760px){
+  .filter-bar{display:none}
+  .filter-mobile{display:block;margin-top:24px}
+  .filter-mobile summary{cursor:pointer;background:#fff;border:1px solid #ede6df;border-radius:var(--radius);padding:14px 18px;font-size:.88rem;color:var(--bleu);font-weight:600;list-style:none}
+  .filter-mobile summary::-webkit-details-marker{display:none}
+  .filter-mobile summary::after{content:"▼";float:right;font-size:.7rem;color:var(--terracotta)}
+  .filter-mobile[open] summary::after{content:"▲"}
+  .filter-mobile .filter-bar-inner{display:flex;flex-direction:column;gap:14px;padding:18px;background:var(--creme);border:1px solid #ede6df;border-top:none;border-radius:0 0 var(--radius) var(--radius)}
+  .filter-mobile .filter-group{display:flex;flex-direction:column;gap:5px}
+  .filter-mobile label{font-size:.7rem;text-transform:uppercase;letter-spacing:.08em;color:var(--bleu);font-weight:600}
+  .filter-mobile select{padding:10px;border:1px solid #ddd;border-radius:6px;background:#fff;font-size:.9rem;color:var(--bleu);font-family:inherit}
+  .filter-mobile .filter-actions{display:flex;justify-content:space-between;align-items:center;padding-top:10px;border-top:1px solid #ede6df}
+  .filter-mobile .filter-count{font-size:.82rem;color:#666}
+  .filter-mobile .filter-reset{background:transparent;border:1px solid #ddd;color:var(--bleu);padding:8px 14px;border-radius:6px;cursor:pointer;font-size:.82rem;font-family:inherit}
+}
 .gamme-card-img{margin:-28px -28px 20px;height:180px;overflow:hidden}
 .gamme-card-img img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .4s}
 .gamme-card:hover .gamme-card-img img{transform:scale(1.04)}
@@ -299,36 +330,110 @@ footer a:hover{color:var(--terracotta)}
   <div class="gammes-inner">
     <span class="section-tag">Collections</span>
     <h2>Six gammes, du quotidien au coffret cadeau</h2>
+
+    <div class="filter-bar" id="filter-bar-desktop" role="region" aria-label="Filtres des gammes">
+      <div class="filter-group">
+        <label for="f-matiere">Matière</label>
+        <select id="f-matiere" data-filter="matiere">
+          <option value="">Toutes les matières</option>
+          <option value="coton">Coton</option>
+          <option value="polyester">Polyester / polaire</option>
+          <option value="modal">Modal / satin</option>
+          <option value="melange">Mélange</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <label for="f-moq">MOQ par modèle</label>
+        <select id="f-moq" data-filter="moq">
+          <option value="">Tous MOQ</option>
+          <option value="6">6 pcs</option>
+          <option value="12">12 pcs</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <label for="f-prix">Prix unitaire HT</label>
+        <select id="f-prix" data-filter="prix">
+          <option value="">Tous les prix</option>
+          <option value="0-10">Moins de 10 €</option>
+          <option value="10-20">10 à 20 €</option>
+          <option value="20-99">Plus de 20 €</option>
+        </select>
+      </div>
+      <div class="filter-actions">
+        <span class="filter-count" aria-live="polite"><b id="fc-shown">6</b> / <span id="fc-total">6</span> gammes</span>
+        <button type="button" class="filter-reset" id="filter-reset">Réinitialiser</button>
+      </div>
+    </div>
+
+    <details class="filter-mobile" id="filter-bar-mobile">
+      <summary>Filtrer les gammes</summary>
+      <div class="filter-bar-inner">
+        <div class="filter-group">
+          <label for="fm-matiere">Matière</label>
+          <select id="fm-matiere" data-filter="matiere">
+            <option value="">Toutes les matières</option>
+            <option value="coton">Coton</option>
+            <option value="polyester">Polyester / polaire</option>
+            <option value="modal">Modal / satin</option>
+            <option value="melange">Mélange</option>
+          </select>
+        </div>
+        <div class="filter-group">
+          <label for="fm-moq">MOQ par modèle</label>
+          <select id="fm-moq" data-filter="moq">
+            <option value="">Tous MOQ</option>
+            <option value="6">6 pcs</option>
+            <option value="12">12 pcs</option>
+          </select>
+        </div>
+        <div class="filter-group">
+          <label for="fm-prix">Prix unitaire HT</label>
+          <select id="fm-prix" data-filter="prix">
+            <option value="">Tous les prix</option>
+            <option value="0-10">Moins de 10 €</option>
+            <option value="10-20">10 à 20 €</option>
+            <option value="20-99">Plus de 20 €</option>
+          </select>
+        </div>
+        <div class="filter-actions">
+          <span class="filter-count"><b id="fc-shown-m">6</b> / <span id="fc-total-m">6</span> gammes</span>
+          <button type="button" class="filter-reset" id="filter-reset-m">Réinitialiser</button>
+        </div>
+      </div>
+    </details>
+
+    <div class="filter-empty" id="filter-empty">Aucune gamme ne correspond à votre sélection. <a id="filter-empty-reset">Réinitialiser les filtres</a></div>
+
     <div class="gammes-grid">
-      <div class="gamme-card">
+      <div class="gamme-card" data-matiere="coton" data-moq="6" data-prix-min="6" data-prix-max="12">
         <div class="gamme-card-img"><img src="/images/prod-coton-adulte.webp" alt="Pyjamas coton adulte en gros — ensemble pantalon haut" width="800" height="600" loading="lazy"></div>
         <h3>Pyjamas coton adulte</h3>
         <p>Coton peigné 160-180 g/m², jersey ou popeline. Les basiques qui tournent toute l'année : ensembles pantalon+haut, shorts de nuit, chemises de nuit. Du XS au 4XL.</p>
         <div class="gamme-prix">À partir de prix sur devis</div>
       </div>
-      <div class="gamme-card">
+      <div class="gamme-card" data-matiere="polyester" data-moq="6" data-prix-min="10" data-prix-max="22">
         <div class="gamme-card-img"><img src="/images/prod-polaire.webp" alt="Pyjamas polaire et flanelle grossiste — vêtements de nuit chauds" width="800" height="600" loading="lazy"></div>
         <h3>Pyjamas polaire & flanelle</h3>
         <p>Polaire 220-280 g/m² ou flanelle brossée. Le segment haute saison (octobre-mars) avec les meilleures marges. Imprimés classiques, unis, motifs de Noël en saison.</p>
         <div class="gamme-prix">À partir de prix sur devis</div>
       </div>
-      <div class="gamme-card">
+      <div class="gamme-card" data-matiere="coton" data-moq="6" data-prix-min="5" data-prix-max="12">
         <div class="gamme-card-img"><img src="/images/prod-enfant.webp" alt="Pyjamas enfant 2-14 ans Oeko-Tex grossiste — imprimés ludiques" width="800" height="600" loading="lazy"></div>
         <h3>Pyjamas enfant (2-14 ans)</h3>
         <p>Coton bio ou certifié Oeko-Tex. Imprimés ludiques, couleurs vives, motifs animaux. Finitions renforcées aux coutures. Même profondeur de coloris que l'adulte.</p>
         <div class="gamme-prix">À partir de prix sur devis</div>
       </div>
-      <div class="gamme-card">
+      <div class="gamme-card" data-matiere="coton" data-moq="6" data-prix-min="6" data-prix-max="13">
         <h3>Pyjamas bébé (3-24 mois)</h3>
         <p>Coton bio GOTS, sans teinture irritante. Grenouillères, ensembles doux, gigoteuses. Fermetures pressionnées, pas de zip sur la peau. Matières ultra-douces testées.</p>
         <div class="gamme-prix">À partir de prix sur devis</div>
       </div>
-      <div class="gamme-card">
+      <div class="gamme-card" data-matiere="modal" data-moq="6" data-prix-min="12" data-prix-max="28">
         <h3>Nuisettes & déshabillés</h3>
         <p>Satin, modal, dentelle. Gamme féminine pour les boutiques lingerie et les e-commerçants mode. Du S au XXL, coloris classiques et saisonniers.</p>
         <div class="gamme-prix">À partir de prix sur devis</div>
       </div>
-      <div class="gamme-card">
+      <div class="gamme-card" data-matiere="melange" data-moq="12" data-prix-min="14" data-prix-max="30">
         <h3>Coffrets cadeau</h3>
         <p>Coffrets pyjama+masque de nuit, coffrets famille (parent+enfant assorti), coffrets couple. Packaging cadeau inclus, prêts à poser en rayon. Dès 12 coffrets/modèle.</p>
         <div class="gamme-prix">Coffrets dès 14,00 € HT</div>
@@ -597,5 +702,97 @@ document.querySelectorAll('.faq-q').forEach(btn=>{
     }
   });
 })();</script>
+<script>
+/* Filtres transverses gammes */
+(function(){
+  var grid = document.querySelector('.gammes-grid');
+  if(!grid) return;
+  var cards = Array.prototype.slice.call(grid.querySelectorAll('.gamme-card'));
+  if(!cards.length) return;
+  var emptyMsg = document.getElementById('filter-empty');
+  var emptyReset = document.getElementById('filter-empty-reset');
+  var resetBtn = document.getElementById('filter-reset');
+  var resetBtnM = document.getElementById('filter-reset-m');
+  var shownEls = [document.getElementById('fc-shown'), document.getElementById('fc-shown-m')];
+  var totalEls = [document.getElementById('fc-total'), document.getElementById('fc-total-m')];
+  var total = cards.length;
+  totalEls.forEach(function(el){ if(el) el.textContent = total; });
+  var allSelects = document.querySelectorAll('.filter-bar select, .filter-mobile select');
+  var state = { matiere:'', moq:'', prix:'', perso:'' };
+
+  function priceOverlap(card, range){
+    if(!range) return true;
+    var parts = range.split('-');
+    var rMin = parseFloat(parts[0]);
+    var rMax = parseFloat(parts[1]);
+    var cMin = parseFloat(card.getAttribute('data-prix-min'));
+    var cMax = parseFloat(card.getAttribute('data-prix-max'));
+    if(isNaN(cMin) || isNaN(cMax)) return false;
+    return cMin <= rMax && cMax >= rMin;
+  }
+
+  function cardMatches(card, st){
+    if(st.matiere && card.getAttribute('data-matiere') !== st.matiere) return false;
+    if(st.moq && card.getAttribute('data-moq') !== st.moq) return false;
+    if(st.prix && !priceOverlap(card, st.prix)) return false;
+    if(st.perso && card.getAttribute('data-perso') !== st.perso) return false;
+    return true;
+  }
+
+  function apply(){
+    var shown = 0;
+    cards.forEach(function(c){
+      if(cardMatches(c, state)){ c.classList.remove('is-hidden'); shown++; }
+      else { c.classList.add('is-hidden'); }
+    });
+    shownEls.forEach(function(el){ if(el) el.textContent = shown; });
+    emptyMsg.style.display = shown === 0 ? 'block' : 'none';
+    updateOptionsAvailability();
+  }
+
+  function updateOptionsAvailability(){
+    ['matiere','moq','prix','perso'].forEach(function(fname){
+      var simState = { matiere:state.matiere, moq:state.moq, prix:state.prix, perso:state.perso };
+      var selects = document.querySelectorAll('select[data-filter="'+fname+'"]');
+      selects.forEach(function(sel){
+        Array.prototype.slice.call(sel.options).forEach(function(opt){
+          if(opt.value === ''){
+            opt.disabled = false;
+            opt.textContent = opt.textContent.replace(/\s*\(\d+\)$/,'');
+            return;
+          }
+          simState[fname] = opt.value;
+          var count = cards.filter(function(c){ return cardMatches(c, simState); }).length;
+          var base = opt.textContent.replace(/\s*\(\d+\)$/,'');
+          opt.textContent = base + ' (' + count + ')';
+          opt.disabled = count === 0;
+        });
+        simState[fname] = state[fname];
+      });
+    });
+  }
+
+  function reset(){
+    state = { matiere:'', moq:'', prix:'', perso:'' };
+    allSelects.forEach(function(s){ s.value = ''; });
+    apply();
+  }
+
+  allSelects.forEach(function(sel){
+    sel.addEventListener('change', function(){
+      var f = sel.getAttribute('data-filter');
+      state[f] = sel.value;
+      document.querySelectorAll('select[data-filter="'+f+'"]').forEach(function(s){ s.value = sel.value; });
+      apply();
+    });
+  });
+
+  if(resetBtn) resetBtn.addEventListener('click', reset);
+  if(resetBtnM) resetBtnM.addEventListener('click', reset);
+  if(emptyReset) emptyReset.addEventListener('click', function(e){ e.preventDefault(); reset(); });
+
+  apply();
+})();
+</script>
 </body>
 </html>

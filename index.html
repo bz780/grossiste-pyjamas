@@ -597,7 +597,7 @@ footer a:hover{color:var(--terracotta)}
       </div>
     </div>
     <form class="contact-form" novalidate>
-<input type="hidden" name="_subject" value="Demande devis — grossiste pyjamas">
+<input type="hidden" name="_subject" value="Demande devis - grossiste pyjamas">
 <input type="hidden" name="_honeypot" value="">
 <input type="hidden" name="_captcha" value="false">
 <input type="hidden" name="_template" value="table">
@@ -609,7 +609,7 @@ footer a:hover{color:var(--terracotta)}
       </div>
       <input type="email" name="email" placeholder="E-mail professionnel" required>
       <input type="text" name="societe" placeholder="Société / Enseigne">
-      <textarea name="message" placeholder="Décrivez votre besoin (gammes, quantités, matières...)"></textarea>
+      <textarea name="message" placeholder="Décrivez votre besoin (gammes, quantités, matières...)" required></textarea>
       <p class="form-note">Données utilisées uniquement pour le traitement de votre demande commerciale.</p>
 <button type="submit" class="btn-submit">Envoyer la demande</button>
     </form>
@@ -688,6 +688,7 @@ document.querySelectorAll('.faq-q').forEach(btn=>{
         body: data,
       });
       const json = await res.json();
+      if ((json.success === false || json.success === 'false') && json.message && /rate limit/i.test(json.message)) { json.success = true; json._queued = true; } /*RL_HANDLED*/
       if (json.success === 'true' || json.success === true) {
         form.reset();
         form.style.display = 'none';

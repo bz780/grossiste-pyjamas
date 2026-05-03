@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
+  <meta name="referrer" content="origin">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Grossiste pyjamas — vente en gros vêtements de nuit | grossiste-pyjamas.fr</title>
@@ -682,7 +683,7 @@ document.querySelectorAll('.faq-q').forEach(btn=>{
 
     try {
       const data = new FormData(form);
-      const res = await fetch('https://formsubmit.co/ajax/admin@accessibledigital.com', {
+      const res = await fetch('https://formsubmit.co/ajax/admin@accessibledigital.com', {referrerPolicy:'origin',/*RP_FIXED*/
         method: 'POST',
         headers: { Accept: 'application/json' },
         body: data,
